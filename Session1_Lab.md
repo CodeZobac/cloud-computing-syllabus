@@ -71,6 +71,12 @@ kubectl get pods
 kubectl describe pod nginx-pod
 ```
 
+##### Step 3.1: Create a tunnel to access POD via browser
+```bash
+kubectl port-forwarding pod nginx-pod 8000:80
+curl http://localhost:8000
+```
+
 #### Step 4: Clean up the resources
 Delete the Pod:
 ```bash
