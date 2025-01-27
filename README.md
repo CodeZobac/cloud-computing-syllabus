@@ -134,53 +134,50 @@ Terraform is an Infrastructure as Code (IaC) tool for defining and provisioning 
 #### 2. Terraform Basics
 - Providers
 - Resources
-- Variables
 
 ### Exercises
-1. Create a namespace in Kubernetes using Terraform.
-2. Deploy a simple application using Terraform.
+1. Create a minikube cluster using Terraform using its [provider](https://registry.terraform.io/providers/scott-the-programmer/minikube/latest/docs)
 
 ---
 
-## Session 7: Automating Kubernetes with Terraform
+## Session 7: Automating Kubernetes dynamically with Terraform using variables
 
 ### Objectives
 - Automate cluster creation and management with Terraform.
-- Use Terraform to configure namespaces and roles.
+- Use Terraform to configure namespaces and deployments using variables.
 
 ### Content
 #### 1. Automating Minikube/Kind Clusters
 - [Minikube](https://minikube.sigs.k8s.io/docs/).
-- [Kind](https://kind.sigs.k8s.io/).
 
 #### 2. Terraform Resources for Kubernetes
 - Namespaces
-- Role-based Access Control (RBAC)
+- Deployments
+
+#### 3. Configure variables
+- To declare variables please take a look into [documentation](https://developer.hashicorp.com/terraform/language/values/variables)
+- to assign values to variables you need to create a `[NAME].tfvars` file. Follow [here](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)
 
 ### Exercises
 1. Create a cluster with Minikube using Terraform.
-2. Automate namespace creation and RBAC roles.
+2. Automate namespace creation.
 
 ---
 
-## Session 8: Advanced Kubernetes with Terraform
+## Session 8: Complete dynamic Terraform creation by managing multiple states
 
 ### Objectives
-- Manage complex Kubernetes resources using Terraform using this [provider](https://registry.terraform.io/providers/scott-the-programmer/minikube/latest/docs)
+- Manage complex Kubernetes resources using Terraform and Terraform [workspaces](https://developer.hashicorp.com/terraform/language/state/workspaces) for managing multiples [states](https://developer.hashicorp.com/terraform/language/state)
 - Handle variables and outputs effectively.
 
 ### Content
 #### 1. Advanced Terraform Features
 - Variables
-- Outputs
-
-#### 2. Terraform for StatefulSets and Ingress
-Learn more about managing StatefulSets [here](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/).
+- Workspaces
 
 ### Exercises
-1. Create a StatefulSet using Terraform.
-2. Configure an Ingress resource with Terraform.
-
+1. Create multiple workspaces using Terraform.
+2. Configure a cluster and a deployment for each workspace
 ---
 
 ## Session 9: Terraform Revision

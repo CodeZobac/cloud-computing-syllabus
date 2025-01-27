@@ -21,27 +21,19 @@
    - Ensure you have access to a Kubernetes cluster (e.g., Minikube or Kind).
    - Configure `kubectl` to connect to your cluster.
 
-3. **Clone the Lab Repository**:
-   ```bash
-   git clone <repository-url>
-   cd session6_terraform_intro
-   ```
-
 ### Step 2: Understanding the Terraform Basics
 
 1. **Terraform Configuration File**:
    - Review the provided `main.tf` file:
-     ```hcl
-     provider "kubernetes" {
-       config_path = "~/.kube/config"
-     }
+    ```hcl
+      provider "minikube" {
+    }
 
-     resource "kubernetes_namespace" "example" {
-       metadata {
-         name = "example-namespace"
-       }
-     }
-     ```
+    resource "minikube_cluster" "example" {
+      cluster_name = "example_cluster"
+      nodes=2
+    }
+    ```
 
 2. **Initialize Terraform**:
    - Run the following command to download required providers:
@@ -66,6 +58,17 @@
      ```
 
 ### Step 3: Deploying a Simple Application
+
+0. **Add Kubernetes Provider connected to minikube cluster**
+  - Open `providers.tf` and add the following provider:
+  ```hcl
+  provider "kubernetes" {
+    host = minikube_cluster.example.host
+    client_certificate = minikube_cluster.example.client_certificate
+    client_key = minikube_cluster.example.client_key
+    cluster_ca_certificate = minikube_cluster.example.cluster_ca_certificate
+  }
+  ```
 
 1. **Review Deployment Configuration**:
    - Open `deployment.tf` to review the configuration for a simple Nginx application:
@@ -140,5 +143,3 @@
 4. `.gitignore`: Ignoring Terraform state files.
 
 ---
-
-Happy automating with Terraform! 🚀

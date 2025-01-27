@@ -2,7 +2,7 @@
 
 ## Objectives
 - Automate cluster creation and management with Terraform.
-- Use Terraform to configure namespaces and roles in Kubernetes.
+- Use Terraform to create a dynamic number of namespaces and deployments using loops and variables 
 
 ---
 
@@ -14,7 +14,7 @@
    - Ensure Terraform is installed (refer to Session 6 if needed).
    - Ensure Minikube is installed:
      ```bash
-     # Start a Minikube cluster:
+     # Start a existing Minikube cluster:
      minikube start
      terraform init
      ```
@@ -22,31 +22,101 @@
 
 ### Step 2: Automating Namespace Creation with Terraform
 
-1. **Review Namespace Terraform Configuration**:
-   - Open `namespace.tf` to see the Terraform configuration for creating namespaces:
-     ```hcl
-     provider "kubernetes" {
-       config_path = "~/.kube/config"
-     }
+> [!IMPORTANT]
+> In this lab we will consider each kubernetes namespace as an 'environment'. You can adapt this concept to fit your/client's needs
 
-     resource "kubernetes_namespace" "dev" {
-       metadata {
-         name = "development"
-       }
-     }
+1. **Define the variables**
+```terraform
+variable "environments" {
+  type = list(string)
+  description = "Kubernetes namespace (environment)"
+  nullable = false
+}
 
-     resource "kubernetes_namespace" "prod" {
-       metadata {
-         name = "production"
-       }
-     }
-     ```
+
+variable "app" {
+  description = "Deployment definition"
+  type = object({
+    name = string
+    replicas = number
+    image = number
+    port = number
+  })
+  nullable = false
+}
+
+```
+1. **Define the variables you need to use to create namespaces and deployments**:
+  - Open `namespace.tf` to see the Terraform configuration for creating namespaces:
+  ```hcl
+  resource "kubernetes_namespace" "environment" {
+    for_each = toset(var.environments)
+    metadata {
+      name = each.key
+    }
+  }
+  ```
+  - Open `deployment.tf` and configure your application:
+  ```hcl
+  resource "kubernetes_deployment" "app" {
+    for_each = toset(var.environments)
+    metadata {
+      name = "${var.app.name}-${each.key}"
+      namespace = each.key
+    }
+  }
+
+  resource "kubernetes_deployment" "app" {
+    for_each = toset(var.environments)
+    metadata {
+      name = "${var.app.name}-${each.key}"
+      namespace = each.key
+    }
+    spec {
+      replicas = var.app.replicas
+      selector {
+          match_labels = {
+            app = "${var.app.name}-${each.key}"
+
+          }
+      }
+      template {
+      
+        metadata {
+          labels =  {
+            app = "${var.app.name}-${each.key}"
+          }       
+        }
+        spec {
+          container {
+            image = var.app.image
+            port {
+              container_port = var.app.port
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
+
+  - configure `session7.tfvars` and fill the variables:
+    ```hcl
+    environments = ["dev","prod"]
+    app = {
+
+      name = "my-app"
+      port = 80
+      image = "nginx:alpine"
+      replicas = 3
+    }
+    ```
 
 2. **Apply the Configuration**:
    ```bash
    terraform init
-   terraform plan
-   terraform apply
+   terraform plan -var-file=session7.tfvars -out plan
+   terraform apply plan
    ```
 
 3. **Verify the Namespaces**:
@@ -57,72 +127,7 @@
 
 ---
 
-### Step 3: Configuring RBAC Roles with Terraform
-
-1. **Review RBAC Configuration**:
-   - Open `rbac.tf` to review the role and role binding configurations:
-     ```hcl
-     resource "kubernetes_role" "developer_role" {
-       metadata {
-         name      = "developer-role"
-         namespace = kubernetes_namespace.dev.metadata[0].name
-       }
-
-       rule {
-         api_groups = [""]
-         resources  = ["pods"]
-         verbs      = ["get", "list", "watch"]
-       }
-     }
-
-     resource "kubernetes_role_binding" "developer_binding" {
-       metadata {
-         name      = "developer-binding"
-         namespace = kubernetes_namespace.dev.metadata[0].name
-       }
-
-       role_ref {
-         api_group = "rbac.authorization.k8s.io"
-         kind      = "Role"
-         name      = kubernetes_role.developer_role.metadata[0].name
-       }
-
-       subject {
-         kind      = "User"
-         name      = "developer"
-         api_group = "rbac.authorization.k8s.io"
-       }
-     }
-     ```
-
-2. **Apply the RBAC Configuration**:
-   ```bash
-   terraform apply
-   ```
-
-3. **Verify the RBAC Setup**:
-   - List roles in the `development` namespace:
-     ```bash
-     kubectl get roles -n development
-     ```
-   - List role bindings in the `development` namespace:
-     ```bash
-     kubectl get rolebindings -n development
-     ```
-
----
-
 ## Deliverables
 - Screenshot of namespaces and roles created via `kubectl`.
 - Screenshot of role bindings created via `kubectl`.
 ---
-
-## Files Included
-1. `namespace.tf`: Namespace creation.
-2. `rbac.tf`: RBAC roles and role bindings.
-3. `variables.tf`: Variables used in the configuration.
-4. `.gitignore`: Ignoring Terraform state files.
-
----
-
-Happy automating Kubernetes with Terraform! 🚀
