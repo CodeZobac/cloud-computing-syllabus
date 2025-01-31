@@ -1,0 +1,44 @@
+# This file is maintained automatically by "terraform init".
+# Manual edits may be lost in future updates.
+
+provider "registry.terraform.io/hashicorp/kubernetes" {
+  version = "2.35.1"
+  hashes = [
+    "h1:Av0Wk8g2XjY2oap7nyWNHEgfCRfphdJvrkqJjEM2ZKM=",
+    "zh:12212ca5ae47823ce14bfafb909eeb6861faf1e2435fb2fc4a8b334b3544b5f5",
+    "zh:3f49b3d77182df06b225ab266667de69681c2e75d296867eb2cf06a8f8db768c",
+    "zh:40832494d19f8a2b3cd0c18b80294d0b23ef6b82f6f6897b5fe00248a9997460",
+    "zh:739a5ddea61a77925ee7006a29c8717377a2e9d0a79a0bbd98738d92eec12c0d",
+    "zh:a02b472021753627c5c39447a56d125a32214c29ff9108fc499f2dcdf4f1cc4f",
+    "zh:b78865b3867065aa266d6758c9601a2756741478f5735a838c20d633d65e085b",
+    "zh:d362e87464683f5632790e66920ea803adb54c2bc0cb24b6fd9a314d2b1efffd",
+    "zh:d98206fe88c2c9a52b8d2d0cb2c877c812a4a51d19f9d8428e63cbd5fd8a304d",
+    "zh:dfa320946b1ce3f3615c42b3447a28dc9f604c06d8b9a6fe289855ab2ade4d11",
+    "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
+    "zh:fc1debd2e695b5222d2ccc8b24dab65baba4ee2418ecce944e64d42e79474cb5",
+    "zh:fdaf960443720a238c09e519aeb30faf74f027ac5d1e0a309c3b326888e031d7",
+  ]
+}
+
+provider "registry.terraform.io/scott-the-programmer/minikube" {
+  version     = "0.1.0"
+  constraints = "0.1.0"
+  hashes = [
+    "h1:WlneWX5kSxlzOfM/FuG2i4kAi7vRxZ3hQZfWpyOtqZg=",
+    "zh:0c8323fd2f46ea8d71ca72b499944047db17077faf251da470b0727a04db54aa",
+    "zh:1c3e89cf19118fc07d7b04257251fc9897e722c16e0a0df7b07fcd261f8c12e7",
+    "zh:21202b326bcb164da518dc1c1336561c75a21236648f45f8316c4d0dd20dcdb6",
+    "zh:25be7ae3acf7cfaa904708e0d9c40e3cca4d70c6fe608861b0056c37e0b4b722",
+    "zh:27b0dfd9b58df7bc5ec80327fc6abf6ee34e970b5448e23042512520c36330f0",
+    "zh:27c2103b4fe288ab38093dc920f82582bfd2b6309eabb53a906c527d9710ce81",
+    "zh:722e52259ff507ab195439ea1c5c861794f445e100017cb7006d95abd98d7458",
+    "zh:73b244909576fffcd965be858602fb0480e2bf4d20f6778da07a08de1a8c23a0",
+    "zh:8a5d48a114925090888ff4b0b05fce8581fc3873de453743c071b3429fb10007",
+    "zh:9b5636138e76d05a2528bd78f296b9970bb29d316eb13f60acd3ebf2f25d71a7",
+    "zh:a45a84bf4768e1f505d26d5cac354d8bb3018f6bf4d03e0d8e0ab89156ad3f53",
+    "zh:c48d2575e6c47d36247742aeb2c715b377b70aea743acac4e2d0d346ffe0730f",
+    "zh:d4cc46a503b5d6b010ebef918351f587ec4f9ab28ceebdba1deb9ed567898870",
+    "zh:dc9948a896a6165ac14b593b7cc6c3e9a0224d8c94e0a0cb88af0efd5bd65abc",
+    "zh:fe47ec64c8f50e69c118197ec1bb8d18bac685b18e83b1572bfccceb5026b528",
+  ]
+}
